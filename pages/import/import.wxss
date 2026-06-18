@@ -1,0 +1,130 @@
+.container {
+  padding: 20rpx 24rpx;
+  padding-bottom: 40rpx;
+}
+
+/* 方法切换 */
+.method-tabs {
+  display: flex;
+  gap: 8rpx;
+  margin-bottom: 24rpx;
+  background: #111827;
+  border-radius: 12rpx;
+  padding: 6rpx;
+}
+.method-tab {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx;
+  border-radius: 10rpx;
+  font-size: 26rpx;
+  color: #8b92a8;
+  transition: 0.2s;
+}
+.method-tab.active {
+  background: #7c6ef0;
+  color: #fff;
+}
+
+/* 文件选择区 */
+.drop-zone {
+  border: 2rpx dashed #2a3150;
+  border-radius: 16rpx;
+  padding: 60rpx 40rpx;
+  text-align: center;
+  transition: 0.2s;
+}
+.drop-zone:active {
+  border-color: #7c6ef0;
+  background: rgba(124, 110, 240, 0.08);
+}
+.drop-icon {
+  font-size: 60rpx;
+  margin-bottom: 12rpx;
+}
+.drop-text {
+  font-size: 28rpx;
+  color: #e8eaf0;
+  margin-bottom: 8rpx;
+}
+.drop-hint {
+  font-size: 22rpx;
+  color: #5a6178;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a2035;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  margin-top: 16rpx;
+  font-size: 26rpx;
+}
+.file-clear {
+  color: #5a6178;
+  padding: 8rpx 12rpx;
+  font-size: 28rpx;
+}
+
+/* 预览 */
+.preview-item {
+  background: #111827;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 12rpx;
+}
+.preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6rpx;
+}
+.preview-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 12rpx;
+}
+.preview-dur {
+  font-size: 22rpx;
+  color: #8b92a8;
+  flex-shrink: 0;
+}
+.preview-url {
+  font-size: 22rpx;
+  color: #5a6178;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6rpx;
+}
+.preview-meta {
+  font-size: 22rpx;
+  color: #5a6178;
+  margin-bottom: 8rpx;
+}
+.preview-tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* 模板 */
+.template-box {
+  background: #111827;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  font-size: 22rpx;
+  color: #8b92a8;
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+  line-height: 1.8;
+  word-break: break-all;
+}
+
+.btn-group {
+  margin-top: 24rpx;
+}

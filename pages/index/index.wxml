@@ -1,0 +1,47 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input class="search-input" placeholder="🔍 搜索视频名称、关键词…" bindinput="onSearch" value="{{searchText}}" />
+    <view class="search-clear" wx:if="{{searchText}}" bindtap="clearSearch">✕</view>
+  </view>
+
+  <!-- 统计 & 操作 -->
+  <view class="stats-row">
+    <view class="stats">共 {{totalCount}} 个视频，显示 {{videos.length}} 个</view>
+    <view class="sync-btn" bindtap="onSync">🔄 同步到网站</view>
+  </view>
+
+  <!-- 视频列表 -->
+  <view class="video-list" wx:if="{{videos.length > 0}}">
+    <view class="video-item" wx:for="{{videos}}" wx:key="id" bindtap="onTapVideo" data-id="{{item.id}}">
+      <view class="item-cover">
+        <image wx:if="{{item.cover}}" src="{{item.cover}}" mode="aspectFill" class="cover-img" />
+        <view wx:else class="cover-placeholder">🌙</view>
+        <view class="duration" wx:if="{{item.duration}}">{{item.duration}}</view>
+      </view>
+      <view class="item-body">
+        <view class="item-title">{{item.name}}</view>
+        <view class="item-meta" wx:if="{{item.date}}">📅 {{item.date}}</view>
+        <view class="item-tags">
+          <text class="tag" wx:for="{{item.keywords}}" wx:key="*this" wx:for-item="kw">{{kw}}</text>
+        </view>
+      </view>
+      <view class="item-actions">
+        <view class="del-btn" catchtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">🗑️</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{!loading && videos.length === 0}}">
+    <view class="icon">😴</view>
+    <view>暂无视频</view>
+    <view style="font-size:24rpx;margin-top:12rpx;">去「添加」或「导入」页面添加视频</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="empty" wx:if="{{loading}}">
+    <view class="icon" style="animation: spin 1s linear infinite;">⏳</view>
+    <view>加载中…</view>
+  </view>
+</view>

@@ -1,0 +1,86 @@
+<view class="container">
+  <!-- 导入方式选择 -->
+  <view class="card">
+    <view class="section-title">📥 批量导入</view>
+
+    <view class="method-tabs">
+      <view class="method-tab {{method === 'file' ? 'active' : ''}}" bindtap="switchMethod" data-method="file">
+        📂 文件导入
+      </view>
+      <view class="method-tab {{method === 'paste' ? 'active' : ''}}" bindtap="switchMethod" data-method="paste">
+        📋 粘贴导入
+      </view>
+    </view>
+
+    <!-- 文件导入 -->
+    <view wx:if="{{method === 'file'}}">
+      <view class="drop-zone" bindtap="chooseFile">
+        <view class="drop-icon">📂</view>
+        <view class="drop-text">点击选择文件</view>
+        <view class="drop-hint">支持 .xlsx / .xls / .csv</view>
+      </view>
+      <view class="file-info" wx:if="{{fileName}}">
+        <text>📎 {{fileName}}</text>
+        <text class="file-clear" bindtap="clearFile">✕</text>
+      </view>
+    </view>
+
+    <!-- 粘贴导入 -->
+    <view wx:if="{{method === 'paste'}}">
+      <view class="input-group">
+        <textarea placeholder="粘贴 CSV 或 JSON 内容…
+
+CSV 格式（首行为表头）：
+name,url,cover,date,duration,keywords
+🌊 海浪声,https://...,https://...,2026-01-15,1:30:00,海浪|白噪音
+
+JSON 格式：
+[{&quot;name&quot;:&quot;🌊 海浪声&quot;,&quot;url&quot;:&quot;https://...&quot;}]" value="{{pasteContent}}" bindinput="onPasteInput" style="min-height:300rpx;" />
+      </view>
+    </view>
+
+    <!-- 按钮 -->
+    <view class="btn-group">
+      <button class="btn btn-primary btn-block" bindtap="onParse" disabled="{{parsing}}">
+        {{parsing ? '解析中…' : '🔍 解析预览'}}
+      </button>
+    </view>
+  </view>
+
+  <!-- 解析结果预览 -->
+  <view class="card" wx:if="{{preview.length > 0}}">
+    <view class="section-title">📋 预览（{{preview.length}} 条）</view>
+
+    <view class="preview-item" wx:for="{{preview}}" wx:key="index">
+      <view class="preview-head">
+        <text class="preview-name">{{item.name}}</text>
+        <text class="preview-dur" wx:if="{{item.duration}}">⏱ {{item.duration}}</text>
+      </view>
+      <view class="preview-url">{{item.url}}</view>
+      <view class="preview-meta" wx:if="{{item.date}}">📅 {{item.date}}</view>
+      <view class="preview-tags">
+        <text class="tag" wx:for="{{item.keywords}}" wx:key="*this" wx:for-item="kw">{{kw}}</text>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <button class="btn btn-primary btn-block" bindtap="onImport" disabled="{{importing}}">
+        {{importing ? '导入中…（{{importProgress}}/{{preview.length}}）' : '✅ 确认导入 ' + preview.length + ' 条'}}
+      </button>
+      <button class="btn btn-secondary btn-block" bindtap="onCancel" style="margin-top:16rpx;">取消</button>
+    </view>
+  </view>
+
+  <!-- 消息 -->
+  <view class="msg {{msgType}}" wx:if="{{msg}}">{{msg}}</view>
+
+  <!-- CSV 模板 -->
+  <view class="card">
+    <view class="section-title">📋 CSV 模板</view>
+    <view class="template-box">
+      <text selectable="true">name,url,cover,date,duration,keywords
+🌊 海浪声示例,https://example.com/video1,https://example.com/cover1.jpg,2026-01-15,1:30:00,海浪|白噪音|助眠</text>
+    </view>
+    <button class="btn btn-secondary btn-block" bindtap="copyTemplate" style="margin-top:16rpx;">📋 复制模板</button>
+  </view>
+</view>

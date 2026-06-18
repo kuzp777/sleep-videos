@@ -1,0 +1,26 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "sleep-videos",
+  "description": "🌙 助眠视频集 - 管理工具",
+  "appid": "",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "autoAudits": false,
+    "checkSiteMap": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "miniprogram",
+  "condition": {},
+  "cloudfunctionRoot": "cloud/functions/",
+  "libVersion": "3.3.4"
+}

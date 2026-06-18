@@ -1,0 +1,56 @@
+<view class="container">
+  <view class="card">
+    <view class="section-title">{{isEdit ? '📝 编辑视频' : '➕ 添加视频'}}</view>
+
+    <view class="input-group">
+      <label>视频名称 *</label>
+      <input placeholder="例：🌊 海浪声 · 深夜助眠" value="{{form.name}}" bindinput="onInput" data-field="name" />
+      <view class="hint">支持 emoji 表情 🌙🌧️🌊🔥</view>
+    </view>
+
+    <view class="input-group">
+      <label>视频链接 *</label>
+      <input placeholder="https://www.bilibili.com/video/BV..." value="{{form.url}}" bindinput="onInput" data-field="url" />
+    </view>
+
+    <view class="input-group">
+      <label>封面图片链接</label>
+      <input placeholder="https://i0.hdslb.com/..." value="{{form.cover}}" bindinput="onInput" data-field="cover" />
+      <view class="hint">留空显示默认封面</view>
+    </view>
+
+    <view class="input-group">
+      <label>发布日期</label>
+      <picker mode="date" value="{{form.date}}" bindchange="onDateChange">
+        <view class="picker-value {{form.date ? '' : 'placeholder'}}">
+          {{form.date || '点击选择日期'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="input-group">
+      <label>视频时长</label>
+      <input placeholder="1:30:00 或 45:30" value="{{form.duration}}" bindinput="onInput" data-field="duration" />
+      <view class="hint">格式：H:MM:SS 或 MM:SS</view>
+    </view>
+
+    <view class="input-group">
+      <label>关键词</label>
+      <input placeholder="雨声, 白噪音, 深度睡眠" value="{{form.keywords}}" bindinput="onInput" data-field="keywords" />
+      <view class="hint">用逗号分隔多个关键词</view>
+    </view>
+  </view>
+
+  <!-- 消息提示 -->
+  <view class="msg {{msgType}}" wx:if="{{msg}}">{{msg}}</view>
+
+  <!-- 按钮 -->
+  <view class="btn-group">
+    <button class="btn btn-primary btn-block" bindtap="onSubmit" disabled="{{submitting}}">
+      {{submitting ? '提交中…' : (isEdit ? '💾 保存修改' : '➕ 添加视频')}}
+    </button>
+    <button class="btn btn-secondary btn-block" bindtap="onReset" style="margin-top:16rpx;">
+      清空表单
+    </button>
+  </view>
+</view>
