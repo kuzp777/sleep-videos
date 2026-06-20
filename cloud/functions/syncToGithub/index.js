@@ -47,13 +47,18 @@ exports.main = async () => {
         }
       }
 
+      // 关键词：移除特殊标签
+      const kw = (v.keywords || []).filter(k => k !== '充电专属' && k !== '直播回放')
+
       // 字段映射：小程序 url → 网站 link，小程序 date → 网站 uploadTime
       return {
         name: v.name || '',
         link: v.url || '',
         cover: cover,
         uploadTime: v.date ? v.date + ' 00:00:00' : '',
-        keywords: v.keywords || []
+        keywords: kw,
+        isPremium: (v.keywords || []).includes('充电专属'),
+        isLiveReplay: v.name.includes('直播回放') || (v.keywords || []).includes('直播回放')
       }
     })
 
