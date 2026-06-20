@@ -8,7 +8,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const CONFIG = {
   GITHUB_TOKEN: process.env.GITHUB_TOKEN || '',    // GitHub Personal Access Token
   GITHUB_OWNER: process.env.GITHUB_OWNER || '',    // GitHub 用户名
-  GITHUB_REPO: process.env.GITHUB_REPO || '',      // 仓库名，如 sleep-videos
+  GITHUB_REPO: process.env.GITHUB_REPO || '',      // 仓库名，如 jysasmr
 }
 
 exports.main = async () => {
@@ -35,29 +35,32 @@ exports.main = async () => {
       allVideos.push(...res.data)
     }
 
-    // 2. 构建 videos.json
-    const videos = allVideos.map(v => ({
-      id: v._id,
-      name: v.name || '',
-      url: v.url || '',
-      cover: v.cover || '',
-      date: v.date || '',
-      duration: v.duration || '',
-      keywords: v.keywords || []
-    }))
+    // 2. 构建 videos.json（字段映射：小程序 → 网站）
+    const videos = allVideos.map(v => {
+      let cover = v.cover || ''
 
-    const jsonData = JSON.stringify({
-      meta: {
-        version: '1.0.0',
-        lastUpdated: new Date().toISOString().split('T')[0],
-        totalVideos: videos.length,
-        categories: [...new Set(videos.flatMap(v => v.keywords))].sort()
-      },
-      videos
-    }, null, 2)
+      // 封面路径处理：确保网站能正确加载
+      if (cover && !cover.startsWith('http') && !cover.startsWith('data:')) {
+        // 已有 covers/ 前缀的保持不变
+        if (!cover.startsWith('covers/')) {
+          cover = 'covers/' + cover
+        }
+      }
+
+      // 字段映射：小程序 url → 网站 link，小程序 date → 网站 uploadTime
+      return {
+        name: v.name || '',
+        link: v.url || '',
+        cover: cover,
+        uploadTime: v.date ? v.date + ' 00:00:00' : '',
+        keywords: v.keywords || []
+      }
+    })
+
+    const jsonData = JSON.stringify(videos, null, 2)
 
     // 3. 获取当前文件 SHA（更新时需要）
-    const currentSha = await getFileSha(GITHUB_OWNER, GITHUB_REPO, 'data/videos.json', GITHUB_TOKEN)
+    const currentSha = await getFileSha(GITHUB_OWNER, GITHUB_REPO, 'videos.json', GITHUB_TOKEN)
 
     // 4. 更新文件
     const content = Buffer.from(jsonData, 'utf-8').toString('base64')
@@ -69,7 +72,7 @@ exports.main = async () => {
 
     await githubRequest(
       'PUT',
-      `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/videos.json`,
+      `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/videos.json`,
       body,
       GITHUB_TOKEN
     )
